@@ -72,13 +72,13 @@ jobs:
         displayName: 'Build 64-bit'
         inputs:
           msbuildArguments: '/m /p:Configuration=RelWithDebInfo'
-          solution: $(Build.SourcesDirectory)\CI\build_64\obs_google_caption_plugin.sln
+          solution: $(Build.SourcesDirectory)\CI\build_64\obs_google_live_captions.sln
 
       - task: MSBuild@1
         displayName: 'Build 32-bit'
         inputs:
           msbuildArguments: '/m /p:Configuration=RelWithDebInfo'
-          solution: $(Build.SourcesDirectory)\CI\build_32\obs_google_caption_plugin.sln
+          solution: $(Build.SourcesDirectory)\CI\build_32\obs_google_live_captions.sln
 
       - script: $(Build.SourcesDirectory)\CI\post-install-script-win.cmd
         workingDirectory: $(Build.SourcesDirectory)\CI
@@ -129,6 +129,6 @@ jobs:
 
       - task: PublishPipelineArtifact@1
         inputs:
-          path: "$(Build.SourcesDirectory)/CI/build/libobs_google_caption_plugin.so"
+          path: "$(Build.SourcesDirectory)/CI/build/libobs_google_live_captions.so"
           artifact: Closed_Captions_Plugin__Release_Linux64_HTTP
 

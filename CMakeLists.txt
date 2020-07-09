@@ -1,18 +1,20 @@
 cmake_minimum_required(VERSION 3.12)
-project(obs_google_caption_plugin)
+project(obs_google_live_captions)
 
 
 #message("prefix: ${CMAKE_FIND_LIBRARY_PREFIXES}")
 #message("suffix: ${CMAKE_FIND_LIBRARY_SUFFIXES}")
 
 set(CMAKE_CXX_STANDARD 14)
-set(VERSION_STRING "0.0.12b")
+set(VERSION_STRING "1.0.0")
 
 
-set(DEVMODE OFF)
+set(USE_DEVMODE OFF CACHE BOOL "set DEVMODE")
 if (USE_DEVMODE)
     message(WARNING "building in DEVMODE mode")
     set(DEVMODE ON)
+else ()
+    set(DEVMODE OFF)
 endif ()
 
 set(ENABLE_CUSTOM_API_KEY OFF CACHE BOOL "set API key via settings UI field")
@@ -35,7 +37,7 @@ endif ()
 add_compile_definitions(VERSION_STRING="${VERSION_STRING}")
 
 set(OBS_SOURCE_DIR "" CACHE STRING "Path to root obs source dir containing libobs/ and UI/ folders")
-set(OBS_LIB_BIN_DIR "" CACHE STRING "Path containing obs and obs-fronted-api libs")
+set(OBS_LIB_DIR "" CACHE STRING "Path containing obs and obs-fronted-api libs")
 set(QT_DIR "" CACHE STRING "Path to Qt dir")
 
 message("hmm ${OBS_SOURCE_DIR}")
@@ -61,11 +63,11 @@ configure_file(CI/post-install-script-win.cmd CI/post-install-script-win.cmd)
 add_subdirectory(lib/caption_stream)
 
 if (DEVMODE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
-    message("CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}")
+    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror")
+    # message("CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}")
 
 #    target_compile_definitions(caption_stream PRIVATE GOOGLE="www.google.com" PORTUP=80 PORTDOWN=80)
-    target_compile_definitions(caption_stream PRIVATE GOOGLE="127.0.0.1" PORTUP=9125 PORTDOWN=9125)
+    target_compile_definitions(caption_stream PRIVATE GOOGLE="127.0.0.1" PORTUP=15980)
     message("using api: localhost")
 
     add_compile_definitions(USE_DEVMODE=1)
@@ -78,7 +80,7 @@ add_compile_definitions(BUILD_CAPTIONS=1)
 include_directories(${OBS_SOURCE_DIR}/libobs)
 include_directories(${OBS_SOURCE_DIR}/UI/obs-frontend-api/)
 
-set(obs_google_caption_plugin_SOURCES
+set(obs_google_live_captions_SOURCES
         src/ui/MainCaptionWidget.cpp
         src/ui/CaptionSettingsWidget.cpp
 
@@ -91,7 +93,7 @@ set(obs_google_caption_plugin_SOURCES
         src/ui/CaptionDock.cpp
         )
 
-set(obs_google_caption_plugin_HEADERS
+set(obs_google_live_captions_HEADERS
         src/AudioCaptureSession.h
         src/SourceCaptioner.h
         src/CaptionResultHandler.cpp
@@ -117,16 +119,16 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets Core)
 set(obs_QRC src/resources/obs.qrc)
 qt5_add_resources(obs_QRC_SOURCES ${obs_QRC})
 
-add_library(obs_google_caption_plugin MODULE
-        ${obs_google_caption_plugin_HEADERS}
-        ${obs_google_caption_plugin_SOURCES}
+add_library(obs_google_live_captions MODULE
+        ${obs_google_live_captions_HEADERS}
+        ${obs_google_live_captions_SOURCES}
         ${obs_QRC_SOURCES}
         )
 
 
 if (CAPTION_STREAM_WINDOWS_STATIC_RUNTIME)
     message(CAPTION_STREAM_WINDOWS_STATIC_RUNTIME ENABLED)
-    #        set_property(TARGET obs_google_caption_plugin PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+    #        set_property(TARGET obs_google_live_captions PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
     foreach (flag_var
             CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
             CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
@@ -141,7 +143,7 @@ endif ()
 
 if (PLUGIN_COMPILE_DEFINITIONS)
     #    message("PLUGIN_COMPILE_DEFINITIONS ${PLUGIN_COMPILE_DEFINITIONS}")
-    target_compile_definitions(obs_google_caption_plugin PRIVATE ${PLUGIN_COMPILE_DEFINITIONS})
+    target_compile_definitions(obs_google_live_captions PRIVATE ${PLUGIN_COMPILE_DEFINITIONS})
 endif ()
 
 #message("suffix: ${CMAKE_FIND_LIBRARY_SUFFIXES}")
@@ -176,7 +178,7 @@ if (NOT OBS_FRONTEND_LIBRARY)
     message(FATAL_ERROR "obs_frontend_library not found")
 endif ()
 
-target_link_libraries(obs_google_caption_plugin
+target_link_libraries(obs_google_live_captions
         caption_stream
         ${OBS_FRONTEND_LIBRARY}
         ${LIBOBS_LIBRARY}

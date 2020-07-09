@@ -16,8 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
 
-#ifndef OBS_GOOGLE_CAPTION_PLUGIN_STORAGE_UTILS_H
-#define OBS_GOOGLE_CAPTION_PLUGIN_STORAGE_UTILS_H
+#ifndef OBS_GOOGLE_LIVE_CAPTIONS_STORAGE_UTILS_H
+#define OBS_GOOGLE_LIVE_CAPTIONS_STORAGE_UTILS_H
 
 #include "SourceCaptioner.h"
 
@@ -80,4 +80,4 @@ static string mute_setting_to_string(const CaptionSourceMuteType mute_setting, c
     return setting_str;
 }
 
-#endif //OBS_GOOGLE_CAPTION_PLUGIN_STORAGE_UTILS_H
+#endif //OBS_GOOGLE_LIVE_CAPTIONS_STORAGE_UTILS_H

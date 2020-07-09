@@ -14,8 +14,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
-#ifndef OBS_GOOGLE_CAPTION_PLUGIN_CAPTIONRESULT_H
-#define OBS_GOOGLE_CAPTION_PLUGIN_CAPTIONRESULT_H
+#ifndef OBS_GOOGLE_LIVE_CAPTIONS_CAPTIONRESULT_H
+#define OBS_GOOGLE_LIVE_CAPTIONS_CAPTIONRESULT_H
 
 
 using namespace std;
@@ -49,4 +49,4 @@ struct CaptionResult {
 };
 
 
-#endif //OBS_GOOGLE_CAPTION_PLUGIN_CAPTIONRESULT_H
+#endif //OBS_GOOGLE_LIVE_CAPTIONS_CAPTIONRESULT_H

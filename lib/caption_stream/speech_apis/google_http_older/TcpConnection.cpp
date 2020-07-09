@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "ip_utils.c"
 
-//testing
 #define SOCKET_RECV_BUFFER_SIZE 4096
 #define SOCKET_SEND_BUFFER_SIZE 1024
 
@@ -43,7 +42,6 @@ static void setup_check() {
 TcpConnection::TcpConnection(string hostname, uint port)
         : hostname(hostname), port(port) {
     setup_check();
-    debug_log("TcpConnection!!!!!!!!!!");
 }
 
 void TcpConnection::connect(uint timeoutMs) {
@@ -58,37 +56,22 @@ void TcpConnection::connect(uint timeoutMs) {
         throw ConnectError("couldn't resolve hostname");
 
     ip_address = ip_str;
-    debug_log("address %s %s", ip_address.c_str(), ip_str);
 
-    // Construct address for server.  Since the server is assumed to be on the same machine for the sake of this program, the address is loopback, but typically this would be an external address.
     if ((p_address = p_socket_address_new(ip_address.c_str(), port)) == nullptr)
         throw ConnectError("couldn't create address");
 
-
-    // Create p_socket
     if ((p_socket = p_socket_new(P_SOCKET_FAMILY_INET, P_SOCKET_TYPE_STREAM, P_SOCKET_PROTOCOL_TCP, nullptr)) == nullptr) {
         throw ConnectError("couldn't create p_socket");
     }
 
-//    info_log("blocking: %d\n", p_socket_get_blocking(p_socket));
     if (timeoutMs) {
-//        debug_log("timeout: %d", p_socket_get_timeout(p_socket));
         p_socket_set_timeout(p_socket, timeoutMs);
-//        debug_log("timeout: %d", p_socket_get_timeout(p_socket));
     }
 
-
-//    p_socket_set_buffer_size(p_socket, P_SOCKET_DIRECTION_RCV, 1024, nullptr);
-//    p_socket_set_buffer_size(p_socket, P_SOCKET_DIRECTION_RCV, SOCKET_RECV_BUFFER_SIZE, nullptr);
-//    p_socket_set_buffer_size(p_socket, P_SOCKET_DIRECTION_SND, SOCKET_SEND_BUFFER_SIZE, nullptr);
-//    info_log("buffer size", );
-
-    // Connect to server.
     if (!p_socket_connect(p_socket, p_address, nullptr)) {
         throw ConnectError("couldn't connect to server");
     }
 
-    debug_log("Connected!!!!!!!!!");
     connected = true;
 }
 
@@ -103,20 +86,17 @@ bool TcpConnection::is_dead() {
 
 void TcpConnection::close() {
     if (p_socket != nullptr) {
-        debug_log("freeing p_socket");
         p_socket_close(p_socket, nullptr);
         p_socket = nullptr;
     }
 
     if (p_address != nullptr) {
-        debug_log("freeing addrress");
         p_socket_address_free(p_address);
         p_address = nullptr;
     }
 }
 
 TcpConnection::~TcpConnection() {
-    debug_log("~TcpConnection decons()");
     close();
 }
 

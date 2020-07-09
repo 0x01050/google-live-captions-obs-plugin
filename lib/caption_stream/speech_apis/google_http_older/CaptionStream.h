@@ -103,13 +103,11 @@ struct CaptionStreamSettings {
 
 class CaptionStream {
     TcpConnection upstream;
-    TcpConnection downstream;
 
     CaptionStreamSettings settings;
     string session_pair;
 
     std::thread *upstream_thread = nullptr;
-    std::thread *downstream_thread = nullptr;
 
     moodycamel::BlockingConcurrentQueue<string *> audio_queue;
 
@@ -121,11 +119,6 @@ class CaptionStream {
     void upstream_run(std::shared_ptr<CaptionStream> self);
 
     void _upstream_run(std::shared_ptr<CaptionStream> self);
-
-
-    void downstream_run(std::shared_ptr<CaptionStream> self);
-
-    void _downstream_run();
 
 public:
     ThreadsaferCallback<caption_text_callback> on_caption_cb_handle;

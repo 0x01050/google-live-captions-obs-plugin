@@ -12,8 +12,8 @@ mkdir %OBSPLUGIN%\64bit
 
 
 
-copy build_32\RelWithDebInfo\obs_google_caption_plugin.dll %OBSPLUGIN%\32bit\obs_google_caption_plugin.dll
-copy build_64\RelWithDebInfo\obs_google_caption_plugin.dll %OBSPLUGIN%\64bit\obs_google_caption_plugin.dll
+copy build_32\RelWithDebInfo\obs_google_live_captions.dll %OBSPLUGIN%\32bit\obs_google_live_captions.dll
+copy build_64\RelWithDebInfo\obs_google_live_captions.dll %OBSPLUGIN%\64bit\obs_google_live_captions.dll
 
 REM dir %OBSPLUGIN%\32bit
 REM dir %OBSPLUGIN%\64bit

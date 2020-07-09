@@ -2,8 +2,8 @@
 // Created by Rat on 31.08.19.
 //
 
-#ifndef OBS_GOOGLE_CAPTION_PLUGIN_CAPTION_OUTPUT_WRITER_H
-#define OBS_GOOGLE_CAPTION_PLUGIN_CAPTION_OUTPUT_WRITER_H
+#ifndef OBS_GOOGLE_LIVE_CAPTIONS_CAPTION_OUTPUT_WRITER_H
+#define OBS_GOOGLE_LIVE_CAPTIONS_CAPTION_OUTPUT_WRITER_H
 
 #include "thirdparty/cameron314/blockingconcurrentqueue.h"
 #include "log.c"
@@ -119,4 +119,4 @@ static void caption_output_writer_loop(shared_ptr<CaptionOutputControl<int>> con
 }
 
 
-#endif //OBS_GOOGLE_CAPTION_PLUGIN_CAPTION_OUTPUT_WRITER_H
+#endif //OBS_GOOGLE_LIVE_CAPTIONS_CAPTION_OUTPUT_WRITER_H

@@ -16,8 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
 
-#ifndef OBS_GOOGLE_CAPTION_PLUGIN_MAINWIDGET_H
-#define OBS_GOOGLE_CAPTION_PLUGIN_MAINWIDGET_H
+#ifndef OBS_GOOGLE_LIVE_CAPTIONS_MAINWIDGET_H
+#define OBS_GOOGLE_LIVE_CAPTIONS_MAINWIDGET_H
 
 #include <QWidget>
 #include <src/SourceCaptioner.h>
@@ -95,4 +95,4 @@ public:
 };
 
 
-#endif //OBS_GOOGLE_CAPTION_PLUGIN_MAINWIDGET_H
+#endif //OBS_GOOGLE_LIVE_CAPTIONS_MAINWIDGET_H

@@ -16,8 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
 
-#ifndef OBS_GOOGLE_CAPTION_PLUGIN_CAPTIONSETTINGSWIDGET_H
-#define OBS_GOOGLE_CAPTION_PLUGIN_CAPTIONSETTINGSWIDGET_H
+#ifndef OBS_GOOGLE_LIVE_CAPTIONS_CAPTIONSETTINGSWIDGET_H
+#define OBS_GOOGLE_LIVE_CAPTIONS_CAPTIONSETTINGSWIDGET_H
 
 
 #include <QWidget>
@@ -39,19 +39,7 @@ Q_OBJECT
 
 private slots:
 
-    void caption_when_index_change(int index);
-
-    void sources_combo_index_change(int index);
-
-    void scene_collection_combo_index_change(int index);
-
     void on_previewPushButton_clicked();
-
-    void on_apiKeyShowPushButton_clicked();
-    
-    void on_transcriptFolderPickerPushButton_clicked();
-
-    void set_show_key(bool set_to_show);
 
     void apply_ui_scene_collection_settings();
 
@@ -69,9 +57,7 @@ public:
     void set_settings(const CaptionPluginSettings &new_settings);
 
     void updateUi();
-
-    void update_other_source_visibility(CaptionSourceMuteType mute_state);
 };
 
 
-#endif //OBS_GOOGLE_CAPTION_PLUGIN_CAPTIONSETTINGSWIDGET_H
+#endif //OBS_GOOGLE_LIVE_CAPTIONS_CAPTIONSETTINGSWIDGET_H

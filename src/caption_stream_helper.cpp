@@ -58,7 +58,7 @@ static CaptionFormatSettings default_CaptionFormatSettings() {
             3,
             false,
             {"niger", "nigger", "nigga", "niggas", "fag", "faggot", "chink"}, // default banned words
-            true,
+            false,
             25.0,
     };
 };
@@ -101,7 +101,7 @@ static TranscriptOutputSettings default_TranscriptOutputSettings() {
 static SourceCaptionerSettings default_SourceCaptionerSettings() {
     return SourceCaptionerSettings(
             true,
-            false,
+            true,
             default_TranscriptOutputSettings(),
             default_CaptionSourceSettings(),
             default_CaptionFormatSettings(),

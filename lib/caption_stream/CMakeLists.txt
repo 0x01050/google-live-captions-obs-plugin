@@ -113,9 +113,9 @@ if (UNIX AND NOT APPLE)
     target_compile_options(caption_stream PRIVATE "-fPIC")
 endif ()
 
-if (DEVMODE)
-    add_executable(caption_stream_dev_main
-            dev/main.cpp
-            )
-    target_link_libraries(caption_stream_dev_main caption_stream)
-endif ()
+# if (DEVMODE)
+#     add_executable(caption_stream_dev_main
+#             dev/main.cpp
+#             )
+#     target_link_libraries(caption_stream_dev_main caption_stream)
+# endif ()

@@ -40,18 +40,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace std;
 
-//SourceCaptioner *captioner_instance = nullptr;
 MainCaptionWidget *main_caption_widget = nullptr;
 CaptionPluginManager *plugin_manager = nullptr;
 
-CaptionDock *caption_dock = nullptr;
 bool frontend_loading_finished = false;
 bool ui_setup_done = false;
 
 OBS_DECLARE_MODULE()
 
 
-//OBS_MODULE_USE_DEFAULT_LOCALE("my-plugin", "en-US")
 void finished_loading_event();
 
 void stream_started_event();
@@ -71,9 +68,6 @@ void obs_frontent_exiting();
 void obs_frontent_scene_collection_changed();
 
 static void obs_event(enum obs_frontend_event event, void *) {
-//    debug_log("obs_event %d", (int) std::hash<std::thread::id>{}(std::this_thread::get_id()));
-//    int tid = std::hash<std::thread::id>{}(std::this_thread::get_id());
-//    info_log("obs event %d", tid);
     if (event == OBS_FRONTEND_EVENT_FINISHED_LOADING) {
         finished_loading_event();
     } else if (event == OBS_FRONTEND_EVENT_STREAMING_STARTED) {
@@ -90,87 +84,54 @@ static void obs_event(enum obs_frontend_event event, void *) {
         obs_frontent_scene_collection_changed();
     } else if (event == OBS_FRONTEND_EVENT_STUDIO_MODE_ENABLED) {
         printf("studio mode!!!!!!!!!!!!!!!!!!!!\n");
-
     }
 }
 
 
 void closed_caption_tool_menu_clicked() {
-    debug_log("caption menu button clicked ");
-//    int tid = std::hash<std::thread::id>{}(std::this_thread::get_id());
-//    info_log("test clicked %d", tid);
-
     if (main_caption_widget) {
-        main_caption_widget->show_self();
+        main_caption_widget->show_settings_dialog();
     }
-}
-
-void setup_dock() {
-    debug_log("setup_dock()");
-    if (caption_dock || !plugin_manager || !main_caption_widget)
-        return;
-
-    caption_dock = new CaptionDock("Captions", *plugin_manager, *main_caption_widget);
-    caption_dock->setObjectName("cloud_caption_caption_dock");
-
-    QMainWindow *main_wid = (QMainWindow *) obs_frontend_get_main_window();
-    main_wid->addDockWidget(Qt::BottomDockWidgetArea, caption_dock);
-    obs_frontend_add_dock(caption_dock);
 }
 
 void setup_UI() {
     if (ui_setup_done)
         return;
 
-    debug_log("setup_UI()");
-    QAction *action = (QAction *) obs_frontend_add_tools_menu_qaction("Cloud Closed Captions");
+    QAction *action = (QAction *) obs_frontend_add_tools_menu_qaction("Google Live Captions");
     action->connect(action, &QAction::triggered, &closed_caption_tool_menu_clicked);
-
-    setup_dock();
 
     ui_setup_done = true;
 }
 
 void finished_loading_event() {
     frontend_loading_finished = true;
-
-    info_log("OBS_FRONTEND_EVENT_FINISHED_LOADING, plugin_manager loaded: %d", plugin_manager != nullptr);
     if (main_caption_widget) {
         main_caption_widget->external_state_changed();
-#ifdef USE_DEVMODE
-        main_caption_widget->show();
-//        main_caption_widget->stream_started_event();
-#endif
     }
 }
 
 void stream_started_event() {
-    info_log("stream_started_event");
     if (main_caption_widget)
         main_caption_widget->stream_started_event();
 }
 
 void stream_stopped_event() {
-    info_log("stream_stopped_event");
     if (main_caption_widget)
         main_caption_widget->stream_stopped_event();
 }
 
 void recording_started_event() {
-    info_log("recording_started_event");
     if (main_caption_widget)
         main_caption_widget->recording_started_event();
 }
 
 void recording_stopped_event() {
-    info_log("recording_stopped_event");
     if (main_caption_widget)
         main_caption_widget->recording_stopped_event();
 }
 
 void obs_frontent_scene_collection_changed() {
-    info_log("obs_frontent_scene_collection_changed");
-
     if (main_caption_widget) {
         main_caption_widget->scene_collection_changed();
     }
@@ -178,10 +139,7 @@ void obs_frontent_scene_collection_changed() {
 }
 
 void obs_frontent_exiting() {
-    info_log("obs_frontent_exiting, stopping captioner");
-
     if (main_caption_widget) {
-//        main_caption_widget->stop();
         delete main_caption_widget;
         main_caption_widget = nullptr;
     }
@@ -192,7 +150,6 @@ void obs_frontent_exiting() {
         delete plugin_manager;
         plugin_manager = nullptr;
     }
-    info_log("obs_frontent_exiting done");
 }
 
 static void save_or_load_event_callback_config(obs_data_t *_, bool saving, void *) {
@@ -200,15 +157,12 @@ static void save_or_load_event_callback_config(obs_data_t *_, bool saving, void 
     info_log("google_s2t_caption_plugin save_or_load_event_callback %d, %d", saving, tid);
 
     if (saving) {
-        // always save too when main OBS saves
         if (plugin_manager) {
             save_CaptionPluginSettings_to_config(plugin_manager->plugin_settings);
         }
     } else {
         if (!plugin_manager && !main_caption_widget) {
-            info_log("google_s2t_caption_plugin initial load");
             CaptionPluginSettings settings = load_CaptionPluginSettings_from_config();
-
             plugin_manager = new CaptionPluginManager(settings);
             main_caption_widget = new MainCaptionWidget(*plugin_manager);
             setup_UI();
@@ -219,7 +173,6 @@ static void save_or_load_event_callback_config(obs_data_t *_, bool saving, void 
 
 static void save_or_load_event_callback(obs_data_t *save_data, bool saving, void *) {
     int tid = std::hash<std::thread::id>{}(std::this_thread::get_id());
-    info_log("save_or_load_event_callback %d, %d", saving, tid);
 
     if (saving && plugin_manager) {
         save_CaptionPluginSettings(save_data, plugin_manager->plugin_settings);
@@ -243,8 +196,6 @@ static void save_or_load_event_callback(obs_data_t *save_data, bool saving, void
 
 
 bool obs_module_load(void) {
-    info_log("google_s2t_caption_plugin %s obs_module_load %d", VERSION_STRING,
-             (int) std::hash<std::thread::id>{}(std::this_thread::get_id()));
     qRegisterMetaType<std::string>();
     qRegisterMetaType<shared_ptr<OutputCaptionResult>>();
     qRegisterMetaType<CaptionResult>();
@@ -256,9 +207,7 @@ bool obs_module_load(void) {
 }
 
 void obs_module_post_load(void) {
-    info_log("google_s2t_caption_plugin %s obs_module_post_load", VERSION_STRING);
 }
 
 void obs_module_unload(void) {
-    info_log("google_s2t_caption_plugin %s obs_module_unload", VERSION_STRING);
 }

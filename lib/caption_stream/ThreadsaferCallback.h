@@ -15,8 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ******************************************************************************/
 
-#ifndef OBS_GOOGLE_CAPTION_PLUGIN_THREADSAFERCALLBACK_H
-#define OBS_GOOGLE_CAPTION_PLUGIN_THREADSAFERCALLBACK_H
+#ifndef OBS_GOOGLE_LIVE_CAPTIONS_THREADSAFERCALLBACK_H
+#define OBS_GOOGLE_LIVE_CAPTIONS_THREADSAFERCALLBACK_H
 
 #include <thread>
 #include <mutex>
@@ -65,4 +65,4 @@ public:
 };
 
 
-#endif //OBS_GOOGLE_CAPTION_PLUGIN_THREADSAFERCALLBACK_H
+#endif //OBS_GOOGLE_LIVE_CAPTIONS_THREADSAFERCALLBACK_H

@@ -2,8 +2,8 @@
 // Created by Rat on 09.10.19.
 //
 
-#ifndef OBS_GOOGLE_CAPTION_PLUGIN_UI_UTILS_H
-#define OBS_GOOGLE_CAPTION_PLUGIN_UI_UTILS_H
+#ifndef OBS_GOOGLE_LIVE_CAPTIONS_UI_UTILS_H
+#define OBS_GOOGLE_LIVE_CAPTIONS_UI_UTILS_H
 
 #include "../CaptionPluginManager.h"
 
@@ -71,4 +71,4 @@ static bool captioning_status_string(
     return true;
 }
 
-#endif //OBS_GOOGLE_CAPTION_PLUGIN_UI_UTILS_H
+#endif //OBS_GOOGLE_LIVE_CAPTIONS_UI_UTILS_H
