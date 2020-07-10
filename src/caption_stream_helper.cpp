@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <util/util.hpp>
 #include <util/platform.h>
 
-#define SAVE_ENTRY_NAME "cloud_closed_caption_rat"
+#define SAVE_ENTRY_NAME "obs_google_live_captions"
 
 static CaptionStreamSettings default_CaptionStreamSettings() {
     uint download_start_delay_ms = 4000;
@@ -373,7 +373,7 @@ static bool save_plugin_data_to_config(obs_data_t *data) {
     }
     os_mkdirs(module_path);
 
-    BPtr<char> config_file_path = obs_module_config_path("cloud_closed_captions_settings.json");
+    BPtr<char> config_file_path = obs_module_config_path("obs_google_live_captions.json");
     if (!config_file_path) {
         error_log("obs_module_config_path failed, couldn't get captions settings file for save");
         return false;
@@ -397,7 +397,7 @@ static bool save_CaptionPluginSettings_to_config(const CaptionPluginSettings &se
 }
 
 static obs_data_t *load_plugin_data_from_config() {
-    BPtr<char> config_file_path = obs_module_config_path("cloud_closed_captions_settings.json");
+    BPtr<char> config_file_path = obs_module_config_path("obs_google_live_captions.json");
     if (!config_file_path) {
         error_log("obs_module_config_path failed, couldn't get captions settings file for load");
         return nullptr;
